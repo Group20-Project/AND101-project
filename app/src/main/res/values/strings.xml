@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">music-search</string>
+
+    <string name ="text1">Play what you love</string>
 </resources>
