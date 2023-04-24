@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-        val accessToken = "BQD7z91Mdrk_BlOkyF_c-0yP_nfBweY5yZw52UAkFG30ieW2rKextuI3oIBSc-Ec9TaPUsyB2X3PcMzfkhDMBiUhFqF21LmpdxDMgTcBAAs_7lasHy8w"
+        val accessToken = "BQCE9Jjb5mlsK92uPcPy_jkNcJDEB5zak7tHsGiPrKTlmADsMarb7aEuSTBlT2D_xAUK96OK7s8N8xb0Tu2x3pJL_h9JfBfC5-gZRcIhdPxeLZMzLf1J"
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
 //        params["q"] = "drake"
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     songList.add(mutableMapOf(
                         "imageURL" to songImageURL, "trackURL" to trackURL, "trackName" to trackName, "artist" to artist)
                     )
-                    Log.d("Spotify API track name", songList.last().toString())
+                    Log.d("Spotify API added", songList.last().toString())
                 }
 
             }
