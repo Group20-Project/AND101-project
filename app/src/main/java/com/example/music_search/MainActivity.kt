@@ -2,6 +2,10 @@ package com.example.music_search
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +28,7 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var songList: MutableList<MutableMap<String, String>>
+    private lateinit var songSubList: MutableList<MutableMap<String, String>>
     private lateinit var rvSpot: RecyclerView
     private lateinit var adapter: SpotAdapter
 
@@ -41,15 +46,39 @@ class MainActivity : AppCompatActivity() {
 
         rvSpot = binding.songItem
         songList = mutableListOf()
+        songSubList = mutableListOf()
         var query = "drake"
         var id = "4lIDpSSMcrmN6XBQYjWfvv"
 
+        // search input
+        var queryET = binding.queryEt as EditText
+        queryET.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                id = queryET.text.toString()
+                // parse ID from URL
+                id = id.substringAfter("https://open.spotify.com/album/")
+                id = id.substringBefore("?")
+                Log.d("Spotify Query ID", id)
+                queryET.text.clear()
+                songList.clear()
+                lifecycleScope.launch{
+                    getSpotDataURL(id)
+                    createAdapter()
+                }
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
+        Log.d("Spotify Query ID", id)
 
         lifecycleScope.launch{
             generateToken()
             getSpotDataURL(id)
 //            createAdapter()
         }
+//        for ( i in 0 until songList.size){
+//        }
 
     }
 
@@ -64,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-        accessToken = "BQANkbCUG164xP3_1fysfNK8GRefpm814jiIourZIqiQV3itsLkApgRwJhX1wss6Wm6j9dzd4nNQGbHV2i9IokMl5L9VSIle2bJhh1GJaEJzteGq-w7B"
+        accessToken = "BQCGuMiisVAvG1IIb0tCK14eJMUFB_D_-BKQsBpwlzVY5TdHXE0qBxQUxYbP7WWfbTi58FIL5tHmXXHILf0OddMWoGbvWWVp0pnyUxKFTuKVjvACTyCi"
         Log.d("Spotify Token getSpot", accessToken)
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
@@ -110,6 +139,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     Log.d("Spotify API added", songList.last().toString())
                 }
+
                 createAdapter()
             }
 
