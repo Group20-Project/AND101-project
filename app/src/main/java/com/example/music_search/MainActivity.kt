@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.codepath.asynchttpclient.AsyncHttpClient
@@ -55,14 +56,15 @@ class MainActivity : AppCompatActivity() {
     private fun createAdapter(){
         adapter = SpotAdapter(songList)
         rvSpot.adapter = adapter
-        rvSpot.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+//        rvSpot.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        rvSpot.layoutManager = LinearLayoutManager(this@MainActivity)
     }
 
     private suspend fun getSpotDataURL(id: String) {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-        accessToken = ""
+        accessToken = "BQANkbCUG164xP3_1fysfNK8GRefpm814jiIourZIqiQV3itsLkApgRwJhX1wss6Wm6j9dzd4nNQGbHV2i9IokMl5L9VSIle2bJhh1GJaEJzteGq-w7B"
         Log.d("Spotify Token getSpot", accessToken)
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
@@ -80,6 +82,8 @@ class MainActivity : AppCompatActivity() {
                 var trackArray = json.jsonObject.getJSONObject("tracks").getJSONArray("items")
                 var songImageURL = json.jsonObject.getJSONArray("images").getJSONObject(0).getString("url")
                 var artist = json.jsonObject.getJSONArray("artists").getJSONObject(0).getString("name")
+                var albumURL = json.jsonObject.getJSONObject("external_urls").getString("spotify")
+                var artistURL = ""
                 Log.d("Spotify API albumCover", songImageURL)
                 Log.d("Spotify API artist", artist)
 //                Log.d("Spotify API track array", trackArray.toString())
@@ -95,8 +99,14 @@ class MainActivity : AppCompatActivity() {
                     getString("spotify")
                     Log.d("Spotify API trackURL", trackURL)
 
+                    // tracks.items[0].artists[0].external_urls.spotify
+                    artistURL = trackArray.getJSONObject(i).getJSONArray("artists").getJSONObject(0).
+                    getJSONObject("external_urls").getString("spotify")
+                    Log.d("Spotify API artistURL", artistURL)
+
                     songList.add(mutableMapOf(
-                        "imageURL" to songImageURL, "trackURL" to trackURL, "trackName" to trackName, "artist" to artist)
+                        "imageURL" to songImageURL, "trackURL" to trackURL, "trackName" to trackName,
+                        "artist" to artist, "artistURL" to artistURL, "albumURL" to albumURL)
                     )
                     Log.d("Spotify API added", songList.last().toString())
                 }
@@ -121,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         val requestHeaders = RequestHeaders()
         requestHeaders["Content-Type"] = "application/x-www-form-urlencoded"
         // enter your credentials
-        val base64credentials = ""
+        val base64credentials = "N2M2YzdiODMyOWQ5NDVkNGE3NzBmYmYxYTg1NDA4MjI6MDgyOTVhYmM0ZGE2NGI0MWFlYmQxYTcyODFiM2U5ZmQ="
         requestHeaders["Authorization"] = "Basic " + base64credentials
 
         val requestBody: RequestBody = FormBody.Builder().addEncoded("grant_type", "client_credentials").build()
