@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">music-search</string>
+    <string name="app_name">Spotify API</string>
 
     <string name ="text1">Play what you love</string>
 </resources>
