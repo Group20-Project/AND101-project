@@ -1,8 +1,9 @@
 package com.example.music_search
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
@@ -18,11 +18,8 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.example.music_search.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
-import okio.IOException
-import org.json.JSONObject
+import android.view.inputmethod
+.InputMethodManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         rvSpot = binding.songItem
         songList = mutableListOf()
@@ -65,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                     getSpotDataURL(id)
                     createAdapter()
                 }
+                this.currentFocus?.let { hideSoftKeyboard(it) }
                 return@OnEditorActionListener true
             }
             false
@@ -72,13 +71,9 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("Spotify Query ID", id)
 
-        lifecycleScope.launch{
-            generateToken()
-            getSpotDataURL(id)
-//            createAdapter()
+        lifecycleScope.launch(Dispatchers.IO) {
+                accessToken = async { generateToken() }.await()
         }
-//        for ( i in 0 until songList.size){
-//        }
 
     }
 
@@ -89,11 +84,11 @@ class MainActivity : AppCompatActivity() {
         rvSpot.layoutManager = LinearLayoutManager(this@MainActivity)
     }
 
-    private suspend fun getSpotDataURL(id: String) {
+    private  fun getSpotDataURL(id: String) {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-        accessToken = "BQC9ciWgklK6C18q1NPW7LS8piU4YaGYMGktvIo-8S3X-VOksKtKXGWlPXUFh8JXpiHQfKe8mzwVQ1lDL10g1Ve3FshRGjGki3Il0UxfGDEcbQZg-Ayq"
+//        accessToken = "BQC9ciWgklK6C18q1NPW7LS8piU4YaGYMGktvIo-8S3X-VOksKtKXGWlPXUFh8JXpiHQfKe8mzwVQ1lDL10g1Ve3FshRGjGki3Il0UxfGDEcbQZg-Ayq"
         Log.d("Spotify Token getSpot", accessToken)
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
@@ -169,6 +164,7 @@ class MainActivity : AppCompatActivity() {
             override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON) {
 
                 accessToken =  json.jsonObject.getString("access_token")
+                getSpotDataURL("4lIDpSSMcrmN6XBQYjWfvv")
 
                 Log.d("Spotify Token success", accessToken)
 
@@ -184,5 +180,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return accessToken
+    }
+
+        fun hideSoftKeyboard(view: View) {
+//        val view: View? = this.currentFocus
+        val imm =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 }
