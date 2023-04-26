@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-        accessToken = "BQCGuMiisVAvG1IIb0tCK14eJMUFB_D_-BKQsBpwlzVY5TdHXE0qBxQUxYbP7WWfbTi58FIL5tHmXXHILf0OddMWoGbvWWVp0pnyUxKFTuKVjvACTyCi"
+        accessToken = ""
         Log.d("Spotify Token getSpot", accessToken)
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         val requestHeaders = RequestHeaders()
         requestHeaders["Content-Type"] = "application/x-www-form-urlencoded"
         // enter your credentials
-        val base64credentials = "N2M2YzdiODMyOWQ5NDVkNGE3NzBmYmYxYTg1NDA4MjI6MDgyOTVhYmM0ZGE2NGI0MWFlYmQxYTcyODFiM2U5ZmQ="
+        val base64credentials = ""
         requestHeaders["Authorization"] = "Basic " + base64credentials
 
         val requestBody: RequestBody = FormBody.Builder().addEncoded("grant_type", "client_credentials").build()
