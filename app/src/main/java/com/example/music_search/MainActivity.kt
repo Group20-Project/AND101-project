@@ -2,7 +2,6 @@ package com.example.music_search
 
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -10,20 +9,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.example.music_search.databinding.ActivityMainBinding
-import kotlinx.coroutines.*
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.FormBody
+import okhttp3.Headers
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import okio.IOException
 import org.json.JSONObject
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -72,13 +72,10 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("Spotify Query ID", id)
 
-        lifecycleScope.launch{
-            generateToken()
+        lifecycleScope.launch (Dispatchers.IO) {
+            syncGenerateToken()
             getSpotDataURL(id)
-//            createAdapter()
         }
-//        for ( i in 0 until songList.size){
-//        }
 
     }
 
@@ -93,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-        accessToken = "BQC9ciWgklK6C18q1NPW7LS8piU4YaGYMGktvIo-8S3X-VOksKtKXGWlPXUFh8JXpiHQfKe8mzwVQ1lDL10g1Ve3FshRGjGki3Il0UxfGDEcbQZg-Ayq"
+//        accessToken = "BQC9ciWgklK6C18q1NPW7LS8piU4YaGYMGktvIo-8S3X-VOksKtKXGWlPXUFh8JXpiHQfKe8mzwVQ1lDL10g1Ve3FshRGjGki3Il0UxfGDEcbQZg-Ayq"
         Log.d("Spotify Token getSpot", accessToken)
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
@@ -183,6 +180,33 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Spotify Token Error", errorResponse)
             }
         })
+        return accessToken
+    }
+
+    suspend fun syncGenerateToken(): String {
+
+        var spotTokenURL = "https://accounts.spotify.com/api/token"
+
+        // enter your credentials
+        val base64credentials = "N2M2YzdiODMyOWQ5NDVkNGE3NzBmYmYxYTg1NDA4MjI6MDgyOTVhYmM0ZGE2NGI0MWFlYmQxYTcyODFiM2U5ZmQ="
+
+        val okClient = OkHttpClient()
+        val requestBody: RequestBody = FormBody.Builder().addEncoded("grant_type", "client_credentials").build()
+
+        val request = Request.Builder()
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .header("Authorization", "Basic $base64credentials")
+            .method("POST", requestBody)
+            .url(spotTokenURL)
+            .build()
+
+        okClient.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            val responseData = response.body!!.string()
+            val json = JSONObject(responseData)
+            accessToken = json.getString("access_token")
+            Log.d("Spotify token", accessToken)
+        }
         return accessToken
     }
 }
