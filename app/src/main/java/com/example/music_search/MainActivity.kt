@@ -1,8 +1,11 @@
 package com.example.music_search
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -65,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     getSpotDataURL(id)
                     createAdapter()
                 }
+                this.currentFocus?.let { hideSoftKeyboard(it) }
                 return@OnEditorActionListener true
             }
             false
@@ -90,7 +94,6 @@ class MainActivity : AppCompatActivity() {
 //        val apiKey = getString(R.string.api_key)
 //        var spotAPIURL = "https://developer.spotify.com/documentation/web-api/reference/search"
         var spotAPIURL = "https://api.spotify.com/v1/albums/$id"
-//        accessToken = "BQC9ciWgklK6C18q1NPW7LS8piU4YaGYMGktvIo-8S3X-VOksKtKXGWlPXUFh8JXpiHQfKe8mzwVQ1lDL10g1Ve3FshRGjGki3Il0UxfGDEcbQZg-Ayq"
         Log.d("Spotify Token getSpot", accessToken)
         val params = RequestParams()
 //        params["id"] = "4lIDpSSMcrmN6XBQYjWfvv"
@@ -102,7 +105,6 @@ class MainActivity : AppCompatActivity() {
         val requestHeaders = RequestHeaders()
 
         requestHeaders["Authorization"] = "Bearer " + accessToken
-        val url = "https://accounts.spotify.com/api/token?grant_type=client_credentials"
         client[spotAPIURL, requestHeaders, params, object : JsonHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON) {
                 var trackArray = json.jsonObject.getJSONObject("tracks").getJSONArray("items")
@@ -146,6 +148,9 @@ class MainActivity : AppCompatActivity() {
                 errorResponse: String,
                 throwable: Throwable?
             ) {
+                lifecycleScope.launch (Dispatchers.IO) {
+                    syncGenerateToken()
+                }
                 Log.d("Spotify API Error", errorResponse)
             }
         }]
@@ -159,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         requestHeaders["Content-Type"] = "application/x-www-form-urlencoded"
         // enter your credentials
         val base64credentials = "N2M2YzdiODMyOWQ5NDVkNGE3NzBmYmYxYTg1NDA4MjI6MDgyOTVhYmM0ZGE2NGI0MWFlYmQxYTcyODFiM2U5ZmQ="
-        requestHeaders["Authorization"] = "Basic " + base64credentials
+        requestHeaders["Authorization"] = "Basic $base64credentials"
 
         val requestBody: RequestBody = FormBody.Builder().addEncoded("grant_type", "client_credentials").build()
         client.post(spotTokenURL, requestHeaders, params, requestBody, object : JsonHttpResponseHandler() {
@@ -184,9 +189,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     suspend fun syncGenerateToken(): String {
-
         var spotTokenURL = "https://accounts.spotify.com/api/token"
-
         // enter your credentials
         val base64credentials = "N2M2YzdiODMyOWQ5NDVkNGE3NzBmYmYxYTg1NDA4MjI6MDgyOTVhYmM0ZGE2NGI0MWFlYmQxYTcyODFiM2U5ZmQ="
 
@@ -200,13 +203,23 @@ class MainActivity : AppCompatActivity() {
             .url(spotTokenURL)
             .build()
 
+        // retrieve access token
         okClient.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val responseData = response.body!!.string()
             val json = JSONObject(responseData)
             accessToken = json.getString("access_token")
-            Log.d("Spotify token", accessToken)
+            Log.d("Spotify Sync Token", accessToken)
         }
         return accessToken
+    }
+
+    fun hideSoftKeyboard(view: View) {
+//        val view: View? = this.currentFocus
+        val imm =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 }
