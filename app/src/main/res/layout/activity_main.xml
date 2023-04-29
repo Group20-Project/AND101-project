@@ -15,16 +15,19 @@
         android:text="@string/text1"
         android:textSize="30dp"
         android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        app:layout_constraintHorizontal_bias="0.005"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintBottom_toTopOf="@+id/song_item"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+<!--        app:layout_constraintTop_toBottomOf="parent" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/song_item"
         android:layout_width="405dp"
-        android:layout_height="407dp"
-        android:layout_marginVertical="10sp"
+        android:layout_height="507dp"
+        android:layout_marginVertical="23dp"
         android:layout_marginBottom="112dp"
         app:layout_constraintBottom_toTopOf="@+id/search"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,15 +45,15 @@
         android:gravity="start"
         android:cursorVisible="false"
         android:hint="Enter Spotify Album ID or Album URL"
-        android:textColor="#1DB954"
+        android:textColor="@color/white"
         android:textColorHighlight="#1DB954"
-        android:textColorHint="#1DB954"
+        android:textColorHint="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.005"
+        app:layout_constraintStart_toEndOf="@+id/search"
         app:layout_constraintTop_toBottomOf="@id/song_item"></EditText>
-
+    <!--        android:textColor="#1DB954"-->
     <ImageView
         android:id="@+id/search"
         android:layout_width="44dp"
@@ -63,27 +66,27 @@
 
     <ImageView
         android:id="@+id/icon2"
-        android:layout_width="63dp"
-        android:layout_height="79dp"
+        android:layout_width="65dp"
+        android:layout_height="80dp"
         android:src="@drawable/spotify2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.082" />
+        app:layout_constraintVertical_bias="0.005" />
 
     <ImageView
         android:id="@+id/icon3"
-        android:layout_width="81dp"
-        android:layout_height="74dp"
+        android:layout_width="100dp"
+        android:layout_height="94dp"
         android:src="@drawable/play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintHorizontal_bias="0.99"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101" />
+        app:layout_constraintVertical_bias="0.145" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
