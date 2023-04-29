@@ -2,6 +2,7 @@ package com.example.music_search
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,17 +33,39 @@ class SpotAdapter(private val songList: MutableList<MutableMap<String,String>>) 
     override fun getItemCount() = songList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.songImage.setOnClickListener {
-            holder.songImage.context.startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("trackURL"))))
-        }
-
+        Log.d("Spotify Adapter position", songList[position].toString())
         holder.nameTextView.text = songList[position].getValue("trackName")
         holder.artistTextView.text = songList[position].getValue("artist")
+        Log.d("Spotify Adapter position", holder.nameTextView.text.toString())
 
         Glide.with(holder.itemView)
             .load(songList[position].getValue("imageURL"))
             .centerCrop()
             .into(holder.songImage)
+
+        // open album on image click
+        holder.songImage.setOnClickListener {
+            holder.songImage.context.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("albumURL"))))
+        }
+
+        // open image on image long click
+        holder.songImage.setOnLongClickListener{
+            holder.songImage.context.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("imageURL"))))
+            return@setOnLongClickListener true
+        }
+
+        // track name onClick listener
+        holder.nameTextView.setOnClickListener {
+            holder.nameTextView.context.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("trackURL"))))
+        }
+
+        // artist name onClick listener
+        holder.artistTextView.setOnClickListener {
+            holder.artistTextView.context.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("artistURL"))))
+        }
     }
 }
