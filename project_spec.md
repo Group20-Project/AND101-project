@@ -30,12 +30,12 @@
 
 Required Features:
 
-- user can search for songs - Luiz
-- user can open song links by clicking on song cover image - Luiz
-- displayed info will be song name, artist, and cover image. - Luiz
-- token authentication - Luiz
-- Mainactivity.kt and Recycler adapter - Luiz
-- xml layout - Evelise and Siddharth
+- [x] user can search for songs - Luiz
+- [x] user can open song links by clicking on song cover image - Luiz
+- [x] displayed info will be song name, artist, and cover image. - Luiz
+- [x] token authentication - Luiz
+- [x] Mainactivity.kt and Recycler adapter - Luiz
+- [x] xml layout - Evelise and Siddharth
 
 Stretch Features:
 
@@ -63,10 +63,10 @@ Required Feature
   - ...
 
 ## Wireframes
-<img src='' title='https://imgur.com/gallery/nzkSPWt' width='' alt='Video Demo' />
+<img src='https://imgur.com/gallery/nzkSPWt' title='Video Demo' width='' alt='Video Demo' />
 
 ### [BONUS] Digital Wireframes & Mockups
-<img src='' title='https://imgur.com/gallery/nzkSPWt' width='' alt='Video Demo' />
+<img src='https://imgur.com/gallery/nzkSPWt' title='Video Demo' width='' alt='Video Demo' />
 
 ### [BONUS] Interactive Prototype
 
