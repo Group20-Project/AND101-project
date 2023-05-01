@@ -58,6 +58,7 @@ class SpotAdapter(private val songList: MutableList<MutableMap<String,String>>) 
 
         // track name onClick listener
         holder.nameTextView.setOnClickListener {
+//            Log.d("spotify listener", songList[position].getValue("trackURL"))
             holder.nameTextView.context.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("trackURL"))))
         }
