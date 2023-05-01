@@ -53,7 +53,7 @@ The following EXTRA features are implemented:
 
 Here's a video that demos all of the app's implemented features:
 
-<img src='https://github.com/Group20-Project/AND101-project/tree/album/blob/main/api-demo.mp4' title='Video Demo' width='' alt='Video Demo' />
+<img src='https://github.com/Group20-Project/AND101-project/blob/album/api-demo.mp4' title='Video Demo' width='' alt='Video Demo' />
 
 VIDEO created with **Google Pixel Screen Recorder**
 
