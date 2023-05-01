@@ -1,6 +1,6 @@
 <!-- (This is a comment) INSTRUCTIONS: Go through this page and fill out any **bolded** entries with their correct values.-->
 
-# AND101 Milestone 1 - **Team/App Name**
+# AND101 Milestone 2 - **Team/App Name**
 
 Submitted by:
 - **Luiz**
@@ -10,13 +10,11 @@ Submitted by:
 - **Tam**
 - **Mike Brown**
 
-Time spent: **4** hours spent in total
+Time spent: **10** hours spent in total
 
 ## Summary
 
-This document provides an overview, project spec, and wireframes for our team's capstone project: **Spotify Searcher retrieves song results based on user input from a search bar**
-
-If we had to describe this milestone in three (3) emojis, they would be: **emojis here**
+This document provides a summary of our project building process for our app, **Spotify Album Info**
 
 ## Milestone Requirements
 
@@ -24,28 +22,40 @@ If we had to describe this milestone in three (3) emojis, they would be: **emoji
 
 The following REQUIRED features are completed:
 
-- [x] Creation of GitHub Organization and Group Project Repo
-- [x] Updated Course Portal group info with Group Name and App Description
+- [x] Assign features to each member of your group
+- [x] Establish a goal time for completing each feature
 
 The following REQUIRED files are included:
 
-- [x] Included 📄 `brainstorming.md`, which contains:
-  - [x] Our initial brainstorming ideas (6+ ideas)
-  - [x] 5-category evaluation of our top 3 ideas
-  - [x] Final app idea chosen
-  - [x] Included 📄 `project_spec.md`, which contains:
-  - [x] App Overview: Description and evaluation
-  - [x] App Spec: User features, Chosen API(s), User Interactions
-  - [X] Wireframe image(s)
+- [x] Updated 📄 `project_spec.md`, which contains:
+  - [X] App Overview (Milestone 1)
+  - [X] App Spec (Milestone 1)
+  - [x] Checked off 2+ completed features
+  - [x] 2+ GIFs of build progress
 
-The following BONUS features are implemented:
-
-- [X] Added digital wireframe/mockup image(s)
-- [ ] Added a GIF of an interactive prototype
+- [x] Our 🎥 Demo Video
+  - [x] We have also added the Demo Video Link to the Group Info Form on the course portal.
 
 The following EXTRA features are implemented:
 
-- [ ] List anything else that you added to improve your submission!
+- [x] List anything else that you added to improve your submission!
+- [x] Implemented kotlin coroutines, suspend functions, and OkHttp Synchronous API calls so that the authentication token 
+      can be retrieved before API calls are made. Due to the Codepath client being async making two separate requests does not guarantee order.
+- [x] User can enter any Spotify album url. String is parsed to retrieve the album url, Spotify API call is made, and recyler is updated to new items from entered album.
+- [x] Added listeners to all recycler items so that they open their respective url externally using intents. 
+      ex.
+	    holder.songImage.setOnClickListener {
+            holder.songImage.context.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(songList[position].getValue("albumURL"))))
+            } 
+
+## 🎥 Demo Video
+
+Here's a video that demos all of the app's implemented features:
+
+<img src='https://github.com/Group20-Project/AND101-project/tree/album/blob/main/api-demo.mp4' title='Video Demo' width='' alt='Video Demo' />
+
+VIDEO created with **Google Pixel Screen Recorder**
 
 ## Notes
 
