@@ -63,10 +63,10 @@ Required Feature
   - ...
 
 ## Wireframes
-<img src='https://imgur.com/gallery/nzkSPWt' title='Video Demo' width='' alt='Video Demo' />
+https://imgur.com/gallery/nzkSPWt
 
 ### [BONUS] Digital Wireframes & Mockups
-<img src='https://imgur.com/gallery/nzkSPWt' title='Video Demo' width='' alt='Video Demo' />
+https://imgur.com/gallery/nzkSPWt
 
 ### [BONUS] Interactive Prototype
 
