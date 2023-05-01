@@ -63,11 +63,10 @@ Required Feature
   - ...
 
 ## Wireframes
-
-![alt text](https://imgur.com/gallery/nzkSPWt?raw=true)
+<img src='' title='https://imgur.com/gallery/nzkSPWt' width='' alt='Video Demo' />
 
 ### [BONUS] Digital Wireframes & Mockups
-https://imgur.com/gallery/nzkSPWt
+<img src='' title='https://imgur.com/gallery/nzkSPWt' width='' alt='Video Demo' />
 
 ### [BONUS] Interactive Prototype
 
@@ -77,8 +76,8 @@ Here's a place for any other notes on the app, it's creation
 process, or what you learned this unit!
 
 For Milestone 2, include **2+ GIFs** of the build process here!
-![alt text]
-![alt text]
+<img src='https://github.com/Group20-Project/AND101-project/blob/album/progress1.png' title='Video Demo' width='' alt='Video Demo' />
+<img src='https://github.com/Group20-Project/AND101-project/blob/album/progress2.png' title='Video Demo' width='' alt='Video Demo' />
 
 ## License
 
