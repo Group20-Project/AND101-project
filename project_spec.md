@@ -64,7 +64,7 @@ Required Feature
 
 ## Wireframes
 
-![alt text]https://imgur.com/gallery/nzkSPWt
+![alt text](https://imgur.com/gallery/nzkSPWt?raw=true)
 
 ### [BONUS] Digital Wireframes & Mockups
 https://imgur.com/gallery/nzkSPWt
