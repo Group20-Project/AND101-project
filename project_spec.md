@@ -30,9 +30,12 @@
 
 Required Features:
 
-- user can search for songs
-- user can open song links by clicking on song cover image
-- displayed info will be song name, artist, and cover image.
+- user can search for songs - Luiz
+- user can open song links by clicking on song cover image - Luiz
+- displayed info will be song name, artist, and cover image. - Luiz
+- token authentication - Luiz
+- Mainactivity.kt and Recycler adapter - Luiz
+- xml layout - Evelise and Siddharth
 
 Stretch Features:
 
@@ -61,7 +64,7 @@ Required Feature
 
 ## Wireframes
 
-![]https://imgur.com/gallery/nzkSPWt
+![alt text]https://imgur.com/gallery/nzkSPWt
 
 ### [BONUS] Digital Wireframes & Mockups
 https://imgur.com/gallery/nzkSPWt
@@ -74,6 +77,8 @@ Here's a place for any other notes on the app, it's creation
 process, or what you learned this unit!
 
 For Milestone 2, include **2+ GIFs** of the build process here!
+![alt text]
+![alt text]
 
 ## License
 
